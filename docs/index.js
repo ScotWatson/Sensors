@@ -77,9 +77,9 @@ async function start( [ evtWindow, ErrorLog ] ) {
       let p = document.createElement("p");
       try {
         const status = await navigator.permissions.query({ name: elem });
-        p.innderHTML = elem + ": " + status.state;
+        p.innerHTML = elem + ": " + status.state;
       } catch (e) {
-        p.innderHTML = elem + ": " + e.message;
+        p.innerHTML = elem + ": " + e.message;
       }
       document.body.appendChild(p);
     }
