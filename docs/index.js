@@ -132,7 +132,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
       magAccDisplay.innerHTML = "";
       p.appendChild(magAccDisplay);
       document.body.appendChild(p);
-      acc = new Magnetometer({frequency: 60});
+      acc = new Accelerometer({frequency: 60});
       acc.addEventListener("reading", readAcc);
       acc.start();
     }
