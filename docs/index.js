@@ -31,33 +31,46 @@ const loadErrorLogModule = (async function () {
   }
 })();
 
-let xDisplay;
-let yDisplay;
-let zDisplay;
-let magDisplay;
+let xAccDisplay;
+let yAccDisplay;
+let zAccDisplay;
+let magAccDisplay;
+let acc;
+let xGyroDisplay;
+let yGyroDisplay;
+let zGyroDisplay;
+let magGyroDisplay;
+let gyro;
+let xMagDisplay;
+let yMagDisplay;
+let zMagDisplay;
+let magMagDisplay;
 let mag;
 
-const strPermissions = [
+const strSensorPermissions = [
   "accelerometer",
-  "accessibility-events",
   "ambient-light-sensor",
+  "camera",
+  "display-capture",
+  "geolocation",
+  "gyroscope",
+  "magnetometer",
+  "microphone",
+  "nfc",
+];
+
+const strOtherPermissions = [
+  "accessibility-events",
   "background-fetch",
   "background-sync",
   "bluetooth",
-  "camera",
   "clipboard",
   "clipboard-read",
   "clipboard-write",
   "device-info",
-  "display-capture",
-  "geolocation",
-  "gyroscope",
   "idle-detection",
   "local-fonts",
-  "magnetometer",
-  "microphone",
   "midi",
-  "nfc",
   "notifications",
   "payment-handler",
   "periodic-background-sync",
@@ -73,59 +86,130 @@ const strPermissions = [
 
 async function start( [ evtWindow, ErrorLog ] ) {
   try {
+    let mapSensors = new Map()
     for (const elem of strPermissions) {
-      let p = document.createElement("p");
       try {
         const status = await navigator.permissions.query({ name: elem });
-        p.innerHTML = elem + ": " + status.state;
+        mapSensors.set(elem, status);
       } catch (e) {
+        const p = document.createElement("p");
         p.innerHTML = elem + ": " + e.message;
+        document.body.appendChild(p);
       }
-      document.body.appendChild(p);
     }
-    let p = document.createElement("p");
-    let label = document.createElement("span");
-    label.innerHTML = "x: ";
-    p.appendChild(label);
-    xDisplay = document.createElement("span");
-    xDisplay.innerHTML = "";
-    p.appendChild(xDisplay);
-    document.body.appendChild(p);
-    p = document.createElement("p");
-    label = document.createElement("span");
-    label.innerHTML = "y: ";
-    p.appendChild(label);
-    yDisplay = document.createElement("span");
-    yDisplay.innerHTML = "";
-    p.appendChild(yDisplay);
-    document.body.appendChild(p);
-    p = document.createElement("p");
-    label = document.createElement("span");
-    label.innerHTML = "z: ";
-    p.appendChild(label);
-    zDisplay = document.createElement("span");
-    zDisplay.innerHTML = "";
-    p.appendChild(zDisplay);
-    document.body.appendChild(p);
-    p = document.createElement("p");
-    label = document.createElement("span");
-    label.innerHTML = "mag: ";
-    p.appendChild(label);
-    magDisplay = document.createElement("span");
-    magDisplay.innerHTML = "";
-    p.appendChild(magDisplay);
-    document.body.appendChild(p);
-    console.log("start query");
-    const result = await navigator.permissions.query({ name: "magnetometer" });
-    console.log("end query");
-    let permitDisplay = document.createElement("p");
-    permitDisplay.innerHTML = result.state;
-    document.body.appendChild(permitDisplay);
-    console.log(Magnetometer);
-    mag = new Magnetometer({frequency: 60});
-    console.log(mag);
-    mag.addEventListener("reading", readMag);
-    mag.start();
+    let p;
+    let label;
+    if (mapSensors.get("accelerometer")?.state === "granted") {
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "x: ";
+      p.appendChild(label);
+      xAccDisplay = document.createElement("span");
+      xAccDisplay.innerHTML = "";
+      p.appendChild(xAccDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "y: ";
+      p.appendChild(label);
+      yAccDisplay = document.createElement("span");
+      yAccDisplay.innerHTML = "";
+      p.appendChild(yAccDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "z: ";
+      p.appendChild(label);
+      zAccDisplay = document.createElement("span");
+      zAccDisplay.innerHTML = "";
+      p.appendChild(zAccDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "mag: ";
+      p.appendChild(label);
+      magAccDisplay = document.createElement("span");
+      magAccDisplay.innerHTML = "";
+      p.appendChild(magAccDisplay);
+      document.body.appendChild(p);
+      acc = new Magnetometer({frequency: 60});
+      acc.addEventListener("reading", readAcc);
+      acc.start();
+    }
+    if (mapSensors.get("gyroscope")?.state === "granted") {
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "x: ";
+      p.appendChild(label);
+      xGyroDisplay = document.createElement("span");
+      xGyroDisplay.innerHTML = "";
+      p.appendChild(xGyroDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "y: ";
+      p.appendChild(label);
+      yGyroDisplay = document.createElement("span");
+      yGyroDisplay.innerHTML = "";
+      p.appendChild(yGyroDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "z: ";
+      p.appendChild(label);
+      zGyroDisplay = document.createElement("span");
+      zGyroDisplay.innerHTML = "";
+      p.appendChild(zGyroDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "mag: ";
+      p.appendChild(label);
+      magGyroDisplay = document.createElement("span");
+      magGyroDisplay.innerHTML = "";
+      p.appendChild(magGyroDisplay);
+      document.body.appendChild(p);
+      gyro = new Gyroscope({frequency: 60});
+      gyro.addEventListener("reading", readGyro);
+      gyro.start();
+    }
+    if (mapSensors.get("magnetometer")?.state === "granted") {
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "x: ";
+      p.appendChild(label);
+      xMagDisplay = document.createElement("span");
+      xMagDisplay.innerHTML = "";
+      p.appendChild(xMagDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "y: ";
+      p.appendChild(label);
+      yMagDisplay = document.createElement("span");
+      yMagDisplay.innerHTML = "";
+      p.appendChild(yMagDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "z: ";
+      p.appendChild(label);
+      zMagDisplay = document.createElement("span");
+      zMagDisplay.innerHTML = "";
+      p.appendChild(zMagDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "mag: ";
+      p.appendChild(label);
+      magMagDisplay = document.createElement("span");
+      magMagDisplay.innerHTML = "";
+      p.appendChild(magMagDisplay);
+      document.body.appendChild(p);
+      mag = new Magnetometer({frequency: 60});
+      mag.addEventListener("reading", readMag);
+      mag.start();
+    }
   } catch (e) {
     ErrorLog.rethrow({
       functionName: "start",
@@ -134,9 +218,23 @@ async function start( [ evtWindow, ErrorLog ] ) {
   }
 }
 
+function readAcc(evt) {
+  xAccDisplay.innerHTML = acc.x.toFixed(2) + "m/s^2";
+  yAccDisplay.innerHTML = acc.y.toFixed(2) + "m/s^2";
+  zAccDisplay.innerHTML = acc.z.toFixed(2) + "m/s^2";
+  magAccDisplay.innerHTML = Math.sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z).toFixed(2) + "m/s^2";
+}
+
+function readGyro(evt) {
+  xGyroDisplay.innerHTML = gyro.x.toFixed(2) + "rad/s";
+  yGyroDisplay.innerHTML = gyro.y.toFixed(2) + "rad/s";
+  zGyroDisplay.innerHTML = gyro.z.toFixed(2) + "rad/s";
+  magGyroDisplay.innerHTML = Math.sqrt(gyro.x * gyro.x + gyro.y * gyro.y + gyro.z * gyro.z).toFixed(2) + "rad/s";
+}
+
 function readMag(evt) {
-  xDisplay.innerHTML = mag.x.toFixed(2) + "uT";
-  yDisplay.innerHTML = mag.y.toFixed(2) + "uT";
-  zDisplay.innerHTML = mag.z.toFixed(2) + "uT";
-  magDisplay.innerHTML = Math.sqrt(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z).toFixed(2) + "uT";
+  xMagDisplay.innerHTML = mag.x.toFixed(2) + "uT";
+  yMagDisplay.innerHTML = mag.y.toFixed(2) + "uT";
+  zMagDisplay.innerHTML = mag.z.toFixed(2) + "uT";
+  magMagDisplay.innerHTML = Math.sqrt(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z).toFixed(2) + "uT";
 }
