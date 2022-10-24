@@ -87,7 +87,7 @@ const strOtherPermissions = [
 async function start( [ evtWindow, ErrorLog ] ) {
   try {
     let mapSensors = new Map()
-    for (const elem of strPermissions) {
+    for (const elem of strSensorPermissions) {
       try {
         const status = await navigator.permissions.query({ name: elem });
         mapSensors.set(elem, status);
