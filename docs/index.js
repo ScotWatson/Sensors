@@ -73,12 +73,15 @@ const strPermissions = [
 
 async function start( [ evtWindow, ErrorLog ] ) {
   try {
-    const status = await Promise.all(strPermissions.map(function (elem) {
-      return navigator.permissions.query({ name: elem });
-    }));
-    for (let i = 0; i < strPermissions.length; ++i) {
+    for (const elem of strPermissions) {
       let p = document.createElement("p");
-      p.innderHTML = strPermissions[i] + ": " + status[i].state;
+      try {
+        const status = await navigator.permissions.query({ name: elem });
+        p.innderHTML = elem + ": " + status.state;
+      } catch (e) {
+        p.innderHTML = elem + ": " + e.message;
+      }
+      document.body.appendChild(p);
     }
     let p = document.createElement("p");
     let label = document.createElement("span");
