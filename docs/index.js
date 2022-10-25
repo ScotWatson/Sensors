@@ -330,7 +330,9 @@ function btnHandler(device) {
         }
       }
       return function (evt) {
+        console.log("start video input");
         startVideoInput(evt);
+        console.log("end video input");
       };
       break;
     case "audioinput":
@@ -351,7 +353,9 @@ function btnHandler(device) {
         }
       }
       return function (evt) {
+        console.log("start audio input");
         startAudioInput(evt);
+        console.log("end audio input");
       };
       break;
     case "audiooutput":
