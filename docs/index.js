@@ -362,7 +362,7 @@ function btnHandler(device) {
       };
       break;
     case "audiooutput":
-      async function (evt) {
+      async function startAudioOutput(evt) {
         try {
           const stream = await window.navigator.mediaDevices.getUserMedia({
             audio: {
@@ -377,7 +377,7 @@ function btnHandler(device) {
       }
       return function (evt) {
         console.log("start audio output");
-        startAudioInput(evt);
+        startAudioOutput(evt);
         console.log("end audio output");
       };
       break;
