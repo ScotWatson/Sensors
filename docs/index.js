@@ -314,39 +314,51 @@ function btnHandler(device) {
   switch (device.type) {
     case "videoinput":
       return async function (evt) {
-        const stream = await window.navigator.mediaDevices.getUserMedia({
-          video: {
-            deviceId: {
-              exact: device.deviceId,
+        try {
+          const stream = await window.navigator.mediaDevices.getUserMedia({
+            video: {
+              deviceId: {
+                exact: device.deviceId,
+              }
             }
-          }
-        });
-        video.srcObject = stream;
-        video.play();
+          });
+          video.srcObject = stream;
+          video.play();
+        } catch (e) {
+          console.error(e);
+        }
       }
       break;
     case "audioinput":
       return async function (evt) {
-        const stream = await window.navigator.mediaDevices.getUserMedia({
-          audio: {
-            deviceId: {
-              exact: device.deviceId,
+        try {
+          const stream = await window.navigator.mediaDevices.getUserMedia({
+            audio: {
+              deviceId: {
+                exact: device.deviceId,
+              }
             }
-          }
-        });
-        video.srcObject = stream;
-        video.play();
+          });
+          video.srcObject = stream;
+          video.play();
+        } catch (e) {
+          console.error(e);
+        }
       }
       break;
     case "audiooutput":
       return async function (evt) {
-        const stream = await window.navigator.mediaDevices.getUserMedia({
-          audio: {
-            deviceId: {
-              exact: device.deviceId,
+        try {
+          const stream = await window.navigator.mediaDevices.getUserMedia({
+            audio: {
+              deviceId: {
+                exact: device.deviceId,
+              }
             }
-          }
-        });
+          });
+        } catch (e) {
+          console.error(e);
+        }
       }
       break;
     default:
