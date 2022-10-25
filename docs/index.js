@@ -382,12 +382,12 @@ function btnHandler(device) {
       };
       break;
     default:
-      async function (evt) {
+      async function startUnknown(evt) {
         console.log("unknown");
       }
       return function (evt) {
         console.log("start unknown");
-        startAudioInput(evt);
+        startUnknown(evt);
         console.log("end unknown");
       };
       break;
