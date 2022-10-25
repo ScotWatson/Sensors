@@ -56,6 +56,7 @@ let yMagDisplay;
 let zMagDisplay;
 let magMagDisplay;
 let mag;
+let video;
 
 const strSensorPermissions = [
   "accelerometer",
@@ -293,13 +294,14 @@ async function start( [ evtWindow, ErrorLog ] ) {
       mag.start();
     }
     const devices = await window.navigator.mediaDevices.enumerateDevices();
-    const video = document.createElement("video");
+    video = document.createElement("video");
     for (const device of devices) {
       const btn = document.createElement("button");
       btn.innerHTML = device.kind;
       btn.addEventListener("click", btnHandler(device));
       document.body.appendChild(btn);
     }
+    document.body.appendChild(video);
   } catch (e) {
     ErrorLog.rethrow({
       functionName: "start",
