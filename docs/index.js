@@ -324,6 +324,7 @@ function btnHandler(device) {
           });
           video.src = URL.createObjectURL(stream);
           video.play();
+          console.log("video start");
         } catch (e) {
           console.error(e);
         }
@@ -341,6 +342,7 @@ function btnHandler(device) {
           });
           video.src = URL.createObjectURL(stream);
           video.play();
+          console.log("audio start");
         } catch (e) {
           console.error(e);
         }
