@@ -322,7 +322,7 @@ function btnHandler(device) {
               }
             }
           });
-          video.srcObject = stream;
+          video.src = URL.createObjectURL(stream);
           video.play();
         } catch (e) {
           console.error(e);
@@ -339,7 +339,7 @@ function btnHandler(device) {
               }
             }
           });
-          video.srcObject = stream;
+          video.src = URL.createObjectURL(stream);
           video.play();
         } catch (e) {
           console.error(e);
