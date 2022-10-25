@@ -36,6 +36,11 @@ let yAccDisplay;
 let zAccDisplay;
 let magAccDisplay;
 let acc;
+let xLinAccDisplay;
+let yLinAccDisplay;
+let zLinAccDisplay;
+let magLinAccDisplay;
+let linAcc;
 let xGyroDisplay;
 let yGyroDisplay;
 let zGyroDisplay;
@@ -135,6 +140,42 @@ async function start( [ evtWindow, ErrorLog ] ) {
       acc = new Accelerometer({frequency: 60});
       acc.addEventListener("reading", readAcc);
       acc.start();
+
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "x: ";
+      p.appendChild(label);
+      xLinAccDisplay = document.createElement("span");
+      xLinAccDisplay.innerHTML = "";
+      p.appendChild(xLinAccDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "y: ";
+      p.appendChild(label);
+      yLinAccDisplay = document.createElement("span");
+      yLinAccDisplay.innerHTML = "";
+      p.appendChild(yLinAccDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "z: ";
+      p.appendChild(label);
+      zLinAccDisplay = document.createElement("span");
+      zLinAccDisplay.innerHTML = "";
+      p.appendChild(zLinAccDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "mag: ";
+      p.appendChild(label);
+      magLinAccDisplay = document.createElement("span");
+      magLinAccDisplay.innerHTML = "";
+      p.appendChild(magLinAccDisplay);
+      document.body.appendChild(p);
+      linAcc = new LinearAccelerometer({frequency: 60});
+      linAcc.addEventListener("reading", readLinAcc);
+      linAcc.start();
     }
     if (mapSensors.get("gyroscope")?.state === "granted") {
       p = document.createElement("p");
@@ -223,6 +264,13 @@ function readAcc(evt) {
   yAccDisplay.innerHTML = acc.y.toFixed(2) + "m/s^2";
   zAccDisplay.innerHTML = acc.z.toFixed(2) + "m/s^2";
   magAccDisplay.innerHTML = Math.sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z).toFixed(2) + "m/s^2";
+}
+
+function readLinAcc(evt) {
+  xLinAccDisplay.innerHTML = linAcc.x.toFixed(2) + "m/s^2";
+  yLinAccDisplay.innerHTML = linAcc.y.toFixed(2) + "m/s^2";
+  zLinAccDisplay.innerHTML = linAcc.z.toFixed(2) + "m/s^2";
+  magLinAccDisplay.innerHTML = Math.sqrt(linAcc.x * linAcc.x + linAcc.y * linAcc.y + linAcc.z * linAcc.z).toFixed(2) + "m/s^2";
 }
 
 function readGyro(evt) {
