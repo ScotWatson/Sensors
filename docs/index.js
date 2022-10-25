@@ -41,6 +41,11 @@ let yLinAccDisplay;
 let zLinAccDisplay;
 let magLinAccDisplay;
 let linAcc;
+let xGravDisplay;
+let yGravDisplay;
+let zGravDisplay;
+let magGravDisplay;
+let grav;
 let xGyroDisplay;
 let yGyroDisplay;
 let zGyroDisplay;
@@ -176,6 +181,42 @@ async function start( [ evtWindow, ErrorLog ] ) {
       linAcc = new LinearAccelerationSensor({frequency: 60});
       linAcc.addEventListener("reading", readLinAcc);
       linAcc.start();
+
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "x: ";
+      p.appendChild(label);
+      xGravDisplay = document.createElement("span");
+      xGravDisplay.innerHTML = "";
+      p.appendChild(xGravDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "y: ";
+      p.appendChild(label);
+      yGravDisplay = document.createElement("span");
+      yGravDisplay.innerHTML = "";
+      p.appendChild(yGravDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "z: ";
+      p.appendChild(label);
+      zGravDisplay = document.createElement("span");
+      zGravDisplay.innerHTML = "";
+      p.appendChild(zGravDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "mag: ";
+      p.appendChild(label);
+      magGravDisplay = document.createElement("span");
+      magGravDisplay.innerHTML = "";
+      p.appendChild(magGravDisplay);
+      document.body.appendChild(p);
+      grav = new GravitySensor({frequency: 60});
+      grav.addEventListener("reading", readGrav);
+      grav.start();
     }
     if (mapSensors.get("gyroscope")?.state === "granted") {
       p = document.createElement("p");
@@ -271,6 +312,13 @@ function readLinAcc(evt) {
   yLinAccDisplay.innerHTML = linAcc.y.toFixed(2) + "m/s^2";
   zLinAccDisplay.innerHTML = linAcc.z.toFixed(2) + "m/s^2";
   magLinAccDisplay.innerHTML = Math.sqrt(linAcc.x * linAcc.x + linAcc.y * linAcc.y + linAcc.z * linAcc.z).toFixed(2) + "m/s^2";
+}
+
+function readGrav(evt) {
+  xGravDisplay.innerHTML = grav.x.toFixed(2) + "m/s^2";
+  yGravDisplay.innerHTML = grav.y.toFixed(2) + "m/s^2";
+  zGravDisplay.innerHTML = grav.z.toFixed(2) + "m/s^2";
+  magGravDisplay.innerHTML = Math.sqrt(grav.x * grav.x + grav.y * grav.y + grav.z * grav.z).toFixed(2) + "m/s^2";
 }
 
 function readGyro(evt) {
