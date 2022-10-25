@@ -298,10 +298,10 @@ async function start( [ evtWindow, ErrorLog ] ) {
     for (const device of devices) {
       const btn = document.createElement("button");
       btn.innerHTML = device.kind;
-      btn.addEventListener("click", function () {
-        // btnHandler(device)
-        console.log("clicked");
-      });
+      btn.addEventListener("click", btnHandler(device));
+//      function () {
+//        console.log("clicked");
+//      }
       document.body.appendChild(btn);
     }
     document.body.appendChild(video);
@@ -362,7 +362,7 @@ function btnHandler(device) {
       };
       break;
     case "audiooutput":
-      return async function (evt) {
+      async function (evt) {
         try {
           const stream = await window.navigator.mediaDevices.getUserMedia({
             audio: {
@@ -375,10 +375,21 @@ function btnHandler(device) {
           console.error(e);
         }
       }
+      return function (evt) {
+        console.log("start audio output");
+        startAudioInput(evt);
+        console.log("end audio output");
+      };
       break;
     default:
-      return async function (evt) {
+      async function (evt) {
+        console.log("unknown");
       }
+      return function (evt) {
+        console.log("start unknown");
+        startAudioInput(evt);
+        console.log("end unknown");
+      };
       break;
   };
 }
