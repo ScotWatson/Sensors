@@ -325,7 +325,7 @@ function btnHandler(device) {
               }
             }
           });
-          video.src = URL.createObjectURL(stream);
+          video.srcObject = stream;
           video.play();
           console.log("video start");
         } catch (e) {
@@ -348,7 +348,7 @@ function btnHandler(device) {
               }
             }
           });
-          video.src = URL.createObjectURL(stream);
+          video.srcObject = stream;
           video.play();
           console.log("audio start");
         } catch (e) {
