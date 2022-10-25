@@ -173,7 +173,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
       magLinAccDisplay.innerHTML = "";
       p.appendChild(magLinAccDisplay);
       document.body.appendChild(p);
-      linAcc = new LinearAccelerometer({frequency: 60});
+      linAcc = new LinearAccelerationSensor({frequency: 60});
       linAcc.addEventListener("reading", readLinAcc);
       linAcc.start();
     }
