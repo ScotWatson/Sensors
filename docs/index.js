@@ -322,6 +322,7 @@ function btnHandler(device) {
           }
         });
         video.srcObject = stream;
+        video.play();
       }
       break;
     case "audioinput":
@@ -334,6 +335,7 @@ function btnHandler(device) {
           }
         });
         video.srcObject = stream;
+        video.play();
       }
       break;
     case "audiooutput":
