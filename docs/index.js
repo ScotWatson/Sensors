@@ -313,7 +313,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
 function btnHandler(device) {
   switch (device.type) {
     case "videoinput":
-      return async function (evt) {
+      async function startVideoInput(evt) {
         try {
           const stream = await window.navigator.mediaDevices.getUserMedia({
             video: {
@@ -329,9 +329,12 @@ function btnHandler(device) {
           console.error(e);
         }
       }
+      return function (evt) {
+        startVideoInput(evt);
+      };
       break;
     case "audioinput":
-      return async function (evt) {
+      async function startAudioInput(evt) {
         try {
           const stream = await window.navigator.mediaDevices.getUserMedia({
             audio: {
@@ -347,6 +350,9 @@ function btnHandler(device) {
           console.error(e);
         }
       }
+      return function (evt) {
+        startAudioInput(evt);
+      };
       break;
     case "audiooutput":
       return async function (evt) {
