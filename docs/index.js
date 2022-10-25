@@ -96,7 +96,7 @@ const strOtherPermissions = [
 
 async function start( [ evtWindow, ErrorLog ] ) {
   try {
-    let mapSensors = new Map()
+    let mapSensors = new Map();
     for (const elem of strSensorPermissions) {
       try {
         const status = await navigator.permissions.query({ name: elem });
@@ -292,12 +292,64 @@ async function start( [ evtWindow, ErrorLog ] ) {
       mag.addEventListener("reading", readMag);
       mag.start();
     }
+    const devices = await window.navigator.mediaDevices.enumerateDevices();
+    const video = document.createElement("video");
+    for (const device of devices) {
+      const btn = document.createElement("button");
+      btn.innerHTML = device.kind;
+      btn.addEventListener("click", btnHandler(device));
+      document.body.appendChild(btn);
+    }
   } catch (e) {
     ErrorLog.rethrow({
       functionName: "start",
       error: e,
     });
   }
+}
+
+function btnHandler(device) {
+  switch (device.type) {
+    case "videoinput":
+      return function (evt) {
+        const stream = await window.navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: {
+              exact: device.deviceId,
+            }
+          }
+        });
+        video.srcObject = stream;
+      }
+      break;
+    case "audioinput":
+      return function (evt) {
+        const stream = await window.navigator.mediaDevices.getUserMedia({
+          audio: {
+            deviceId: {
+              exact: device.deviceId,
+            }
+          }
+        });
+        video.srcObject = stream;
+      }
+      break;
+    case "audiooutput":
+      return function (evt) {
+        const stream = await window.navigator.mediaDevices.getUserMedia({
+          audio: {
+            deviceId: {
+              exact: device.deviceId,
+            }
+          }
+        });
+      }
+      break;
+    default:
+      return function (evt) {
+      }
+      break;
+  };
 }
 
 function readAcc(evt) {
