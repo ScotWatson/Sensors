@@ -314,7 +314,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
 }
 
 function btnHandler(device) {
-  switch (device.type) {
+  switch (device.kind) {
     case "videoinput":
       async function startVideoInput(evt) {
         try {
