@@ -362,11 +362,8 @@ async function start( [ evtWindow, ErrorLog ] ) {
     video = document.createElement("video");
     for (const device of devices) {
       const btn = document.createElement("button");
-      btn.innerHTML = device.kind;
+      btn.innerHTML = device.kind + ": " + device.deviceId;
       btn.addEventListener("click", btnHandler(device));
-//      function () {
-//        console.log("clicked");
-//      }
       document.body.appendChild(btn);
     }
     document.body.appendChild(video);
