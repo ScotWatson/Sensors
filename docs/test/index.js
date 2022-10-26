@@ -81,6 +81,7 @@ let zMagDisplay;
 let magMagDisplay;
 let timeMagDisplay;
 let mag;
+let divStreamData;
 let video;
 
 const strSensorPermissions = [
@@ -359,14 +360,16 @@ async function start( [ evtWindow, ErrorLog ] ) {
       mag.start();
     }
     const devices = await window.navigator.mediaDevices.enumerateDevices();
+    divStreamData = document.createElement("div");
+    document.body.appendChild(divStreamData);
     video = document.createElement("video");
+    document.body.appendChild(video);
     for (const device of devices) {
       const btn = document.createElement("button");
       btn.innerHTML = device.kind + ": " + device.deviceId;
       btn.addEventListener("click", btnHandler(device));
       document.body.appendChild(btn);
     }
-    document.body.appendChild(video);
   } catch (e) {
     ErrorLog.rethrow({
       functionName: "start",
@@ -376,6 +379,18 @@ async function start( [ evtWindow, ErrorLog ] ) {
 }
 
 function btnHandler(device) {
+  function reportStream(stream) {
+    divStreamData.innerHTML = "":
+    const pActive = document.createElement("p");
+    pActive.innerHTML = "Active: " + stream.active;
+    divStreamData.appendChild(pActive);
+    const tracks = stream.getTracks();
+    for (const track of tracks) {
+      const pTrack = document.createElement("p");
+      pTrack.innerHTML = track.id + ": " + track.kind;
+      divStreamData.appendChild(pTrack);
+    }
+  }
   switch (device.kind) {
     case "videoinput":
       async function startVideoInput(evt) {
