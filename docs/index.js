@@ -446,8 +446,9 @@ function readAcc(evt) {
   yAccDisplay.innerHTML = acc.y.toFixed(2) + "m/s^2";
   zAccDisplay.innerHTML = acc.z.toFixed(2) + "m/s^2";
   magAccDisplay.innerHTML = Math.sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z).toFixed(2) + "m/s^2";
-  let duration = lastAccReadingTime - thisAccReadingTime;
+  let duration = thisAccReadingTime - lastAccReadingTime;
   timeAccDisplay.innerHTML = duration.toFixed(2) + "ms";
+  lastAccReadingTime = thisAccReadingTime;
 }
 
 let lastLinAccReadingTime = initPageTime;
@@ -457,8 +458,9 @@ function readLinAcc(evt) {
   yLinAccDisplay.innerHTML = linAcc.y.toFixed(2) + "m/s^2";
   zLinAccDisplay.innerHTML = linAcc.z.toFixed(2) + "m/s^2";
   magLinAccDisplay.innerHTML = Math.sqrt(linAcc.x * linAcc.x + linAcc.y * linAcc.y + linAcc.z * linAcc.z).toFixed(2) + "m/s^2";
-  let duration = lastLinAccReadingTime - thisLinAccReadingTime;
+  let duration = thisLinAccReadingTime - lastLinAccReadingTime;
   timeLinAccDisplay.innerHTML = duration.toFixed(2) + "ms";
+  lastLinAccReadingTime = thisLinAccReadingTime;
 }
 
 let lastGravReadingTime = initPageTime;
@@ -468,8 +470,9 @@ function readGrav(evt) {
   yGravDisplay.innerHTML = grav.y.toFixed(2) + "m/s^2";
   zGravDisplay.innerHTML = grav.z.toFixed(2) + "m/s^2";
   magGravDisplay.innerHTML = Math.sqrt(grav.x * grav.x + grav.y * grav.y + grav.z * grav.z).toFixed(2) + "m/s^2";
-  let duration = lastGravReadingTime - thisGravReadingTime;
+  let duration = thisGravReadingTime - lastGravReadingTime;
   timeGravDisplay.innerHTML = duration.toFixed(2) + "ms";
+  lastGravReadingTime = thisGravReadingTime;
 }
 
 let lastGyroReadingTime = initPageTime;
@@ -479,8 +482,9 @@ function readGyro(evt) {
   yGyroDisplay.innerHTML = gyro.y.toFixed(4) + "rad/s";
   zGyroDisplay.innerHTML = gyro.z.toFixed(4) + "rad/s";
   magGyroDisplay.innerHTML = Math.sqrt(gyro.x * gyro.x + gyro.y * gyro.y + gyro.z * gyro.z).toFixed(4) + "rad/s";
-  let duration = lastGyroReadingTime - thisGyroReadingTime;
+  let duration = thisGyroReadingTime - lastGyroReadingTime;
   timeGyroDisplay.innerHTML = duration.toFixed(2) + "ms";
+  lastGyroReadingTime = thisGyroReadingTime;
 }
 
 let lastMagReadingTime = initPageTime;
@@ -490,6 +494,7 @@ function readMag(evt) {
   yMagDisplay.innerHTML = mag.y.toFixed(2) + "uT";
   zMagDisplay.innerHTML = mag.z.toFixed(2) + "uT";
   magMagDisplay.innerHTML = Math.sqrt(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z).toFixed(2) + "uT";
-  let duration = lastMagReadingTime - thisMagReadingTime;
+  let duration = thisMagReadingTime - lastMagReadingTime;
   timeMagDisplay.innerHTML = duration.toFixed(2) + "ms";
+  lastMagReadingTime = thisMagReadingTime;
 }
