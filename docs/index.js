@@ -156,7 +156,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
       timeAccDisplay.innerHTML = "";
       p.appendChild(timeAccDisplay);
       document.body.appendChild(p);
-      acc = new Accelerometer({frequency: 60});
+      acc = new Accelerometer({frequency: 100});
       acc.addEventListener("reading", readAcc);
       acc.start();
 
@@ -200,7 +200,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
       timeLinAccDisplay.innerHTML = "";
       p.appendChild(timeLinAccDisplay);
       document.body.appendChild(p);
-      linAcc = new LinearAccelerationSensor({frequency: 60});
+      linAcc = new LinearAccelerationSensor({frequency: 100});
       linAcc.addEventListener("reading", readLinAcc);
       linAcc.start();
 
@@ -244,7 +244,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
       timeGravDisplay.innerHTML = "";
       p.appendChild(timeGravDisplay);
       document.body.appendChild(p);
-      grav = new GravitySensor({frequency: 60});
+      grav = new GravitySensor({frequency: 100});
       grav.addEventListener("reading", readGrav);
       grav.start();
     }
@@ -289,7 +289,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
       timeGyroDisplay.innerHTML = "";
       p.appendChild(timeGyroDisplay);
       document.body.appendChild(p);
-      gyro = new Gyroscope({frequency: 60});
+      gyro = new Gyroscope({frequency: 100});
       gyro.addEventListener("reading", readGyro);
       gyro.start();
     }
@@ -334,7 +334,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
       timeMagDisplay.innerHTML = "";
       p.appendChild(timeMagDisplay);
       document.body.appendChild(p);
-      mag = new Magnetometer({frequency: 60});
+      mag = new Magnetometer({frequency: 10});
       mag.addEventListener("reading", readMag);
       mag.start();
     }
