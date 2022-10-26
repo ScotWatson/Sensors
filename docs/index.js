@@ -46,7 +46,7 @@ class Averager {
     for (let i = 0; i < this.#array.length; ++i) {
       ret += this.#array[i];
     }
-    ret /= length;
+    ret /= this.#array.length;
     return ret;
   }
 }
