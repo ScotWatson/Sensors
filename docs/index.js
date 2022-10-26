@@ -31,6 +31,26 @@ const loadErrorLogModule = (async function () {
   }
 })();
 
+class Averager {
+  #array;
+  constructor(length) {
+    this.#array = new Array(length);
+    for (let i = 0; i < length; ++i) {
+      this.#array[i] = 0;
+    }
+  }
+  sample(value) {
+    this.#array.shift();
+    this.#array.push(value);
+    let ret = 0;
+    for (let i = 0; i < length; ++i) {
+      ret += this.#array[i];
+    }
+    ret /= length;
+    return ret;
+  }
+}
+
 let xAccDisplay;
 let yAccDisplay;
 let zAccDisplay;
@@ -440,61 +460,66 @@ function btnHandler(device) {
 }
 
 let lastAccReadingTime = initPageTime;
+const accTimeAverager = new Averager(25);
 function readAcc(evt) {
   let thisAccReadingTime = performance.now();
   xAccDisplay.innerHTML = acc.x.toFixed(2) + "m/s^2";
   yAccDisplay.innerHTML = acc.y.toFixed(2) + "m/s^2";
   zAccDisplay.innerHTML = acc.z.toFixed(2) + "m/s^2";
   magAccDisplay.innerHTML = Math.sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z).toFixed(2) + "m/s^2";
-  let duration = thisAccReadingTime - lastAccReadingTime;
+  let duration = accTimeAverager.sample(thisAccReadingTime - lastAccReadingTime);
   timeAccDisplay.innerHTML = duration.toFixed(2) + "ms";
   lastAccReadingTime = thisAccReadingTime;
 }
 
 let lastLinAccReadingTime = initPageTime;
+const linAccTimeAverager = new Averager(25);
 function readLinAcc(evt) {
   let thisLinAccReadingTime = performance.now();
   xLinAccDisplay.innerHTML = linAcc.x.toFixed(2) + "m/s^2";
   yLinAccDisplay.innerHTML = linAcc.y.toFixed(2) + "m/s^2";
   zLinAccDisplay.innerHTML = linAcc.z.toFixed(2) + "m/s^2";
   magLinAccDisplay.innerHTML = Math.sqrt(linAcc.x * linAcc.x + linAcc.y * linAcc.y + linAcc.z * linAcc.z).toFixed(2) + "m/s^2";
-  let duration = thisLinAccReadingTime - lastLinAccReadingTime;
+  let duration = linAccTimeAverager.sample(thisLinAccReadingTime - lastLinAccReadingTime);
   timeLinAccDisplay.innerHTML = duration.toFixed(2) + "ms";
   lastLinAccReadingTime = thisLinAccReadingTime;
 }
 
 let lastGravReadingTime = initPageTime;
+const gravTimeAverager = new Averager(25);
 function readGrav(evt) {
   let thisGravReadingTime = performance.now();
   xGravDisplay.innerHTML = grav.x.toFixed(2) + "m/s^2";
   yGravDisplay.innerHTML = grav.y.toFixed(2) + "m/s^2";
   zGravDisplay.innerHTML = grav.z.toFixed(2) + "m/s^2";
   magGravDisplay.innerHTML = Math.sqrt(grav.x * grav.x + grav.y * grav.y + grav.z * grav.z).toFixed(2) + "m/s^2";
-  let duration = thisGravReadingTime - lastGravReadingTime;
+  let duration = gravTimeAverager.sample(thisGravReadingTime - lastGravReadingTime);
   timeGravDisplay.innerHTML = duration.toFixed(2) + "ms";
   lastGravReadingTime = thisGravReadingTime;
 }
 
 let lastGyroReadingTime = initPageTime;
+const gyroTimeAverager = new Averager(25);
 function readGyro(evt) {
   let thisGyroReadingTime = performance.now();
   xGyroDisplay.innerHTML = gyro.x.toFixed(4) + "rad/s";
   yGyroDisplay.innerHTML = gyro.y.toFixed(4) + "rad/s";
   zGyroDisplay.innerHTML = gyro.z.toFixed(4) + "rad/s";
   magGyroDisplay.innerHTML = Math.sqrt(gyro.x * gyro.x + gyro.y * gyro.y + gyro.z * gyro.z).toFixed(4) + "rad/s";
-  let duration = thisGyroReadingTime - lastGyroReadingTime;
+  let duration = gyroTimeAverager.sample(thisGyroReadingTime - lastGyroReadingTime);
   timeGyroDisplay.innerHTML = duration.toFixed(2) + "ms";
   lastGyroReadingTime = thisGyroReadingTime;
 }
 
 let lastMagReadingTime = initPageTime;
+const magTimeAverager = new Averager(25);
 function readMag(evt) {
   let thisMagReadingTime = performance.now();
   xMagDisplay.innerHTML = mag.x.toFixed(2) + "uT";
   yMagDisplay.innerHTML = mag.y.toFixed(2) + "uT";
   zMagDisplay.innerHTML = mag.z.toFixed(2) + "uT";
   magMagDisplay.innerHTML = Math.sqrt(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z).toFixed(2) + "uT";
-  let duration = thisMagReadingTime - lastMagReadingTime;
+  let duration = magTimeAverager.sample(thisMagReadingTime - lastMagReadingTime);
   timeMagDisplay.innerHTML = duration.toFixed(2) + "ms";
   lastMagReadingTime = thisMagReadingTime;
 }
