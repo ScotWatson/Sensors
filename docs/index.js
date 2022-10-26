@@ -143,6 +143,14 @@ async function start( [ evtWindow, ErrorLog ] ) {
       magAccDisplay.innerHTML = "";
       p.appendChild(magAccDisplay);
       document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "time: ";
+      p.appendChild(label);
+      timeAccDisplay = document.createElement("span");
+      timeAccDisplay.innerHTML = "";
+      p.appendChild(timeAccDisplay);
+      document.body.appendChild(p);
       acc = new Accelerometer({frequency: 60});
       acc.addEventListener("reading", readAcc);
       acc.start();
@@ -179,6 +187,14 @@ async function start( [ evtWindow, ErrorLog ] ) {
       magLinAccDisplay.innerHTML = "";
       p.appendChild(magLinAccDisplay);
       document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "time: ";
+      p.appendChild(label);
+      timeLinAccDisplay = document.createElement("span");
+      timeLinAccDisplay.innerHTML = "";
+      p.appendChild(timeLinAccDisplay);
+      document.body.appendChild(p);
       linAcc = new LinearAccelerationSensor({frequency: 60});
       linAcc.addEventListener("reading", readLinAcc);
       linAcc.start();
@@ -214,6 +230,14 @@ async function start( [ evtWindow, ErrorLog ] ) {
       magGravDisplay = document.createElement("span");
       magGravDisplay.innerHTML = "";
       p.appendChild(magGravDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "time: ";
+      p.appendChild(label);
+      timeGravDisplay = document.createElement("span");
+      timeGravDisplay.innerHTML = "";
+      p.appendChild(timeGravDisplay);
       document.body.appendChild(p);
       grav = new GravitySensor({frequency: 60});
       grav.addEventListener("reading", readGrav);
@@ -252,6 +276,14 @@ async function start( [ evtWindow, ErrorLog ] ) {
       magGyroDisplay.innerHTML = "";
       p.appendChild(magGyroDisplay);
       document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "time: ";
+      p.appendChild(label);
+      timeGyroDisplay = document.createElement("span");
+      timeGyroDisplay.innerHTML = "";
+      p.appendChild(timeGyroDisplay);
+      document.body.appendChild(p);
       gyro = new Gyroscope({frequency: 60});
       gyro.addEventListener("reading", readGyro);
       gyro.start();
@@ -288,6 +320,14 @@ async function start( [ evtWindow, ErrorLog ] ) {
       magMagDisplay = document.createElement("span");
       magMagDisplay.innerHTML = "";
       p.appendChild(magMagDisplay);
+      document.body.appendChild(p);
+      p = document.createElement("p");
+      label = document.createElement("span");
+      label.innerHTML = "time: ";
+      p.appendChild(label);
+      timeMagDisplay = document.createElement("span");
+      timeMagDisplay.innerHTML = "";
+      p.appendChild(timeMagDisplay);
       document.body.appendChild(p);
       mag = new Magnetometer({frequency: 60});
       mag.addEventListener("reading", readMag);
@@ -394,37 +434,57 @@ function btnHandler(device) {
   };
 }
 
+let lastAccReadingTime = initPageTime;
 function readAcc(evt) {
+  let thisAccReadingTime = performance.now();
   xAccDisplay.innerHTML = acc.x.toFixed(2) + "m/s^2";
   yAccDisplay.innerHTML = acc.y.toFixed(2) + "m/s^2";
   zAccDisplay.innerHTML = acc.z.toFixed(2) + "m/s^2";
   magAccDisplay.innerHTML = Math.sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z).toFixed(2) + "m/s^2";
+  let duration = lastAccReadingTime - thisAccReadingTime;
+  timeAccDisplay.innerHTML = duration.toFixed(2) + "ms";
 }
 
+let lastLinAccReadingTime = initPageTime;
 function readLinAcc(evt) {
+  let thisLinAccReadingTime = performance.now();
   xLinAccDisplay.innerHTML = linAcc.x.toFixed(2) + "m/s^2";
   yLinAccDisplay.innerHTML = linAcc.y.toFixed(2) + "m/s^2";
   zLinAccDisplay.innerHTML = linAcc.z.toFixed(2) + "m/s^2";
   magLinAccDisplay.innerHTML = Math.sqrt(linAcc.x * linAcc.x + linAcc.y * linAcc.y + linAcc.z * linAcc.z).toFixed(2) + "m/s^2";
+  let duration = lastLinAccReadingTime - thisLinAccReadingTime;
+  timeLinAccDisplay.innerHTML = duration.toFixed(2) + "ms";
 }
 
+let lastGravReadingTime = initPageTime;
 function readGrav(evt) {
+  let thisGravReadingTime = performance.now();
   xGravDisplay.innerHTML = grav.x.toFixed(2) + "m/s^2";
   yGravDisplay.innerHTML = grav.y.toFixed(2) + "m/s^2";
   zGravDisplay.innerHTML = grav.z.toFixed(2) + "m/s^2";
   magGravDisplay.innerHTML = Math.sqrt(grav.x * grav.x + grav.y * grav.y + grav.z * grav.z).toFixed(2) + "m/s^2";
+  let duration = lastGravReadingTime - thisGravReadingTime;
+  timeGravDisplay.innerHTML = duration.toFixed(2) + "ms";
 }
 
+let lastGyroReadingTime = initPageTime;
 function readGyro(evt) {
+  let thisGyroReadingTime = performance.now();
   xGyroDisplay.innerHTML = gyro.x.toFixed(4) + "rad/s";
   yGyroDisplay.innerHTML = gyro.y.toFixed(4) + "rad/s";
   zGyroDisplay.innerHTML = gyro.z.toFixed(4) + "rad/s";
   magGyroDisplay.innerHTML = Math.sqrt(gyro.x * gyro.x + gyro.y * gyro.y + gyro.z * gyro.z).toFixed(4) + "rad/s";
+  let duration = lastGyroReadingTime - thisGyroReadingTime;
+  timeGyroDisplay.innerHTML = duration.toFixed(2) + "ms";
 }
 
+let lastMagReadingTime = initPageTime;
 function readMag(evt) {
+  let thisMagReadingTime = performance.now();
   xMagDisplay.innerHTML = mag.x.toFixed(2) + "uT";
   yMagDisplay.innerHTML = mag.y.toFixed(2) + "uT";
   zMagDisplay.innerHTML = mag.z.toFixed(2) + "uT";
   magMagDisplay.innerHTML = Math.sqrt(mag.x * mag.x + mag.y * mag.y + mag.z * mag.z).toFixed(2) + "uT";
+  let duration = lastMagReadingTime - thisMagReadingTime;
+  timeMagDisplay.innerHTML = duration.toFixed(2) + "ms";
 }
