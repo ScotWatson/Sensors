@@ -43,7 +43,7 @@ class Averager {
     this.#array.shift();
     this.#array.push(value);
     let ret = 0;
-    for (let i = 0; i < length; ++i) {
+    for (let i = 0; i < this.#array.length; ++i) {
       ret += this.#array[i];
     }
     ret /= length;
