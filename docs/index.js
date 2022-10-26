@@ -416,10 +416,10 @@ function readGrav(evt) {
 }
 
 function readGyro(evt) {
-  xGyroDisplay.innerHTML = gyro.x.toFixed(2) + "rad/s";
-  yGyroDisplay.innerHTML = gyro.y.toFixed(2) + "rad/s";
-  zGyroDisplay.innerHTML = gyro.z.toFixed(2) + "rad/s";
-  magGyroDisplay.innerHTML = Math.sqrt(gyro.x * gyro.x + gyro.y * gyro.y + gyro.z * gyro.z).toFixed(2) + "rad/s";
+  xGyroDisplay.innerHTML = gyro.x.toFixed(4) + "rad/s";
+  yGyroDisplay.innerHTML = gyro.y.toFixed(4) + "rad/s";
+  zGyroDisplay.innerHTML = gyro.z.toFixed(4) + "rad/s";
+  magGyroDisplay.innerHTML = Math.sqrt(gyro.x * gyro.x + gyro.y * gyro.y + gyro.z * gyro.z).toFixed(4) + "rad/s";
 }
 
 function readMag(evt) {
