@@ -380,7 +380,7 @@ async function start( [ evtWindow, ErrorLog ] ) {
 
 function btnHandler(device) {
   function reportStream(stream) {
-    divStreamData.innerHTML = "":
+    divStreamData.innerHTML = "";
     const pActive = document.createElement("p");
     pActive.innerHTML = "Active: " + stream.active;
     divStreamData.appendChild(pActive);
