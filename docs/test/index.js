@@ -423,8 +423,10 @@ function btnHandler(device) {
           });
           reportStream(stream);
           video.pause();
+          video.src = "";
+          video.load();
           video.srcObject = stream;
-          video.play();
+          await video.play();
           console.log("video start");
         } catch (e) {
           errorDisplay.innerHTML = e.message;
