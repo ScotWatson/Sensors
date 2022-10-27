@@ -402,6 +402,7 @@ function btnHandler(device) {
               }
             }
           });
+          reportStream(stream);
           video.srcObject = stream;
           video.play();
           console.log("video start");
@@ -425,6 +426,7 @@ function btnHandler(device) {
               }
             }
           });
+          reportStream(stream);
           video.srcObject = stream;
           video.play();
           console.log("audio start");
@@ -448,6 +450,7 @@ function btnHandler(device) {
               }
             }
           });
+          reportStream(stream);
         } catch (e) {
           console.error(e);
         }
