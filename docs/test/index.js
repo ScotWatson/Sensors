@@ -390,8 +390,12 @@ function btnHandler(device) {
       const btnActivate = document.createElement("button");
       btnActivate.innerHTML = "Activate";
       btnActivate.addEventListener("click", function () {
-        stream.active = true;
-        reportStream(stream);
+        try {
+          stream.active = true;
+          reportStream(stream);
+        } catch (e) {
+          pDateTime.innerHTML += " " + e.message;
+        }
       });
       pActive.appendChild(btnActivate);
     }
