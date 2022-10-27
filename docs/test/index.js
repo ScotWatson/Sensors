@@ -386,24 +386,24 @@ function btnHandler(device) {
     divStreamData.appendChild(pDateTime);
     const pActive = document.createElement("p");
     pActive.innerHTML = "Active: " + stream.active;
-    if (stream.active === false) {
-      const btnActivate = document.createElement("button");
-      btnActivate.innerHTML = "Activate";
-      btnActivate.addEventListener("click", function () {
-        try {
-          stream.active = true;
-          reportStream(stream);
-        } catch (e) {
-          pDateTime.innerHTML += " " + e.message;
-        }
-      });
-      pActive.appendChild(btnActivate);
-    }
     divStreamData.appendChild(pActive);
     const tracks = stream.getTracks();
     for (const track of tracks) {
       const pTrack = document.createElement("p");
-      pTrack.innerHTML = track.id + ": " + track.kind;
+      pTrack.innerHTML = track.id + ": " + track.kind + " " + track.enabled;
+      if (track.enabled === false) {
+        const btnEnable = document.createElement("button");
+        btnEnable.innerHTML = "Activate";
+        btnEnable.addEventListener("click", function () {
+          try {
+            track.enabled = true;
+            reportStream(stream);
+          } catch (e) {
+            pDateTime.innerHTML += " " + e.message;
+          }
+        });
+        pTrack.appendChild(btnEnable);
+      }
       divStreamData.appendChild(pTrack);
     }
   }
