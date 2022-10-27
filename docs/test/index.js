@@ -124,7 +124,7 @@ const strOtherPermissions = [
 
 async function start( [ evtWindow, ErrorLog ] ) {
   try {
-    let errorDisplay = document.createElement("p");
+    errorDisplay = document.createElement("p");
     document.body.appendChild(errorDisplay);
     let mapSensors = new Map();
     for (const elem of strSensorPermissions) {
