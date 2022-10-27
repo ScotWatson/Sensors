@@ -51,6 +51,7 @@ class Averager {
   }
 }
 
+let errorDisplay;
 let xAccDisplay;
 let yAccDisplay;
 let zAccDisplay;
@@ -123,6 +124,8 @@ const strOtherPermissions = [
 
 async function start( [ evtWindow, ErrorLog ] ) {
   try {
+    let errorDisplay = document.createElement("p");
+    document.body.appendChild(errorDisplay);
     let mapSensors = new Map();
     for (const elem of strSensorPermissions) {
       try {
@@ -399,7 +402,7 @@ function btnHandler(device) {
             track.enabled = true;
             reportStream(stream);
           } catch (e) {
-            pDateTime.innerHTML += " " + e.message;
+            errorDisplay.innerHTML = e.message;
           }
         });
         pTrack.appendChild(btnEnable);
@@ -424,7 +427,7 @@ function btnHandler(device) {
           video.play();
           console.log("video start");
         } catch (e) {
-          console.error(e);
+          errorDisplay.innerHTML = e.message;
         }
       }
       return function (evt) {
@@ -449,7 +452,7 @@ function btnHandler(device) {
           video.play();
           console.log("audio start");
         } catch (e) {
-          console.error(e);
+          errorDisplay.innerHTML = e.message;
         }
       }
       return function (evt) {
@@ -471,7 +474,7 @@ function btnHandler(device) {
           reportStream(stream);
           video.pause();
         } catch (e) {
-          console.error(e);
+          errorDisplay.innerHTML = e.message;
         }
       }
       return function (evt) {
