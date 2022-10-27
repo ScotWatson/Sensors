@@ -381,6 +381,9 @@ async function start( [ evtWindow, ErrorLog ] ) {
 function btnHandler(device) {
   function reportStream(stream) {
     divStreamData.innerHTML = "";
+    const pDateTime = document.createElement("p");
+    pDateTime.innerHTML = (new Date()).toString();
+    divStreamData.appendChild(pDateTime);
     const pActive = document.createElement("p");
     pActive.innerHTML = "Active: " + stream.active;
     if (stream.active === false) {
@@ -388,7 +391,7 @@ function btnHandler(device) {
       btnActivate.innerHTML = "Activate";
       btnActivate.addEventListener("click", function () {
         stream.active = true;
-        btnActivate.remove();
+        reportStream(stream);
       });
       pActive.appendChild(btnActivate);
     }
