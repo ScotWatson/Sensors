@@ -383,6 +383,15 @@ function btnHandler(device) {
     divStreamData.innerHTML = "";
     const pActive = document.createElement("p");
     pActive.innerHTML = "Active: " + stream.active;
+    if (stream.active === false) {
+      const btnActivate = document.createElement("button");
+      btnActivate.innerHTML = "Activate";
+      btnActivate.addEventListener("click", function () {
+        stream.active = true;
+        btnActivate.remove();
+      });
+      pActive.appendChild(btnActivate);
+    }
     divStreamData.appendChild(pActive);
     const tracks = stream.getTracks();
     for (const track of tracks) {
